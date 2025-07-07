@@ -1,0 +1,19 @@
+Step 1: Add env 
+    Click Start → search for Environment Variables
+
+    Select Edit the system environment variables
+
+    In the dialog box → Click Environment Variables...
+
+    In the System Variables section, select the Path line → click Edit
+
+    Click New, paste the path: E:\devapp\flutter_windows_3.32.4-stable\flutter\bin
+
+    OK --> OK
+
+Step 2: run cmd: flutter doctor
+    Doctor summary (to see all details, run flutter doctor -v):
+    [✓] Flutter (Channel stable, 3.x.x, ...)
+    ...
+
+--> OK
