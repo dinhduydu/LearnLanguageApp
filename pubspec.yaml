@@ -1,0 +1,20 @@
+name: learn_language_app
+description: A simple Flutter app to learn vocabulary
+publish_to: 'none' # Remove this line if you plan to publish
+
+version: 1.0.0+1
+
+environment:
+  sdk: '^3.8.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
