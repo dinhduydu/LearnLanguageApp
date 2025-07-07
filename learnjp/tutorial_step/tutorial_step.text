@@ -41,3 +41,5 @@ Doctor summary (to see all details, run flutter doctor -v):
 ! Doctor found issues in 2 categories.
 
 so if we wanna build apk --> download Android Studio
+
+Step 3: If you choose E volume instead of C, run cmd: flutter config --android-sdk "E:\Users\Duy Du\AppData\Local\Android\Sdk"
