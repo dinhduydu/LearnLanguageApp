@@ -1,0 +1,4 @@
+cd learn_language_app
+flutter pub get
+flutter run
+flutter build apk
