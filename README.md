@@ -2,3 +2,9 @@ Widget Update:
 ![image](https://github.com/user-attachments/assets/5104c1b8-e200-4bbe-8cc0-f3feb0e6c3f2)
 Create folder:
 ![image](https://github.com/user-attachments/assets/f2e92034-9770-4785-bfae-37e6c1d1932e)
+Create multi folders, files:
+![image](https://github.com/user-attachments/assets/6704dbb7-1695-49fb-bac2-b3c3437e6df4)
+FOLDER STRUCTURE:
+lib/
+![image](https://github.com/user-attachments/assets/d493f2cb-2a7a-4a8e-a4b3-778a8b0af78e)
+
