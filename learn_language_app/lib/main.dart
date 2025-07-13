@@ -1,22 +1,26 @@
 import 'package:flutter/material.dart';
-import 'features/folder/presentation/pages/folder_home_page.dart';
+import 'package:learn_language_app/features/home/presentation/pages/home_page.dart';
+import 'package:learn_language_app/features/setting/presentation/pages/setting_page.dart';
+import 'package:learn_language_app/features/home/presentation/pages/reminder_page.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const LearnLanguageApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class LearnLanguageApp extends StatelessWidget {
+  const LearnLanguageApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Note Folders',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.teal),
-        useMaterial3: true,
-      ),
-      home: const FolderHomePage(),
+      title: 'Learn Language',
+      theme: ThemeData(useMaterial3: true, colorSchemeSeed: Colors.teal),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const HomePage(),
+        '/settings': (context) => const SettingPage(),
+        '/reminder': (context) => const ReminderPage(), // Uncomment if ReminderPage is implemented
+      },
     );
   }
 }

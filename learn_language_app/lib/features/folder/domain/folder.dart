@@ -1,19 +1,17 @@
-class FileNote {
+class FolderNode {
+  final String id;
   final String title;
-  final String content;
+  final bool isFolder;
+  final List<FolderNode> children;
+  final String? content;         // <-- dùng content thay notes
+  final DateTime? reminderTime; // <-- để hỗ trợ reminder
 
-  FileNote({required this.title, required this.content});
-}
-
-class Folder {
-  final String name;
-  final List<Folder> subFolders;
-  final List<FileNote> files;
-
-  Folder({
-    required this.name,
-    List<Folder>? subFolders,
-    List<FileNote>? files,
-  })  : subFolders = subFolders ?? [],
-        files = files ?? [];
+  FolderNode({
+    required this.id,
+    required this.title,
+    required this.isFolder,
+    this.children = const [],
+    this.content,
+    this.reminderTime,
+  });
 }
