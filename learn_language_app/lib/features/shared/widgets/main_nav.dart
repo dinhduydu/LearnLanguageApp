@@ -10,23 +10,40 @@ class MainNav extends StatelessWidget {
         padding: EdgeInsets.zero,
         children: [
           const DrawerHeader(
-            decoration: BoxDecoration(color: Colors.teal),
+            decoration: BoxDecoration(color: Color.fromARGB(255, 0, 150, 150)),
             child: Text('Learn Language', style: TextStyle(color: Colors.white, fontSize: 20)),
           ),
           ListTile(
             leading: const Icon(Icons.home),
             title: const Text('Home'),
-            onTap: () => Navigator.pushReplacementNamed(context, '/'),
+            onTap: () {
+              Navigator.pop(context); // Đóng Drawer trước
+              Navigator.pushNamed(context, '/');
+            },
           ),
           ListTile(
             leading: const Icon(Icons.alarm),
             title: const Text('Reminder'),
-            onTap: () => Navigator.pushReplacementNamed(context, '/reminder'),
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.pushNamed(context, '/reminder');
+            },
           ),
           ListTile(
             leading: const Icon(Icons.settings),
             title: const Text('Settings'),
-            onTap: () => Navigator.pushReplacementNamed(context, '/settings'),
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.pushNamed(context, '/settings');
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.star),
+            title: const Text('Favourite'),
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.pushNamed(context, '/favourite');
+            },
           ),
         ],
       ),

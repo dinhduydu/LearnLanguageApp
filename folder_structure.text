@@ -3,7 +3,7 @@ lib/
 └── features/
     ├── folder/
     │   ├── domain/
-    │   │   ├── folder.dart          # Định nghĩa FolderNode (folder/file, content, reminderTime)
+    │   │   ├── folder.dart          # Define FolderNode (folder/file, content, reminderTime)
     │   │   └── note_file.dart       # Nếu cần tách riêng NoteFile (không bắt buộc nếu dùng FolderNode)
     │   └── presentation/
     │       ├── pages/
@@ -21,8 +21,8 @@ lib/
     │
     ├── notion/
     │   └── data/
-    │       └── notion_service.dart   # Service gọi API Notion
+    │       └── notion_service.dart   # Notion API service
     │
     └── shared/
         └── widgets/
-            └── main_nav.dart          # Drawer Navigation chung
+            └── main_nav.dart          # Drawer Common Navigation

@@ -1,19 +1,26 @@
 import 'package:flutter/material.dart';
 
-Future<String?> showCreateFolderDialog(BuildContext context) {
+Future<String?> showCreateFolderDialog(BuildContext context) async {
   String folderName = '';
+
   return showDialog<String>(
     context: context,
     builder: (context) => AlertDialog(
-      title: const Text('Create new folder'),
+      title: const Text('Tạo Folder mới'),
       content: TextField(
-        onChanged: (val) => folderName = val,
         autofocus: true,
-        decoration: const InputDecoration(hintText: 'Folder name'),
+        onChanged: (val) => folderName = val,
+        decoration: const InputDecoration(hintText: 'Nhập tên folder'),
       ),
       actions: [
-        TextButton(onPressed: () => Navigator.pop(context), child: const Text('Cancel')),
-        TextButton(onPressed: () => Navigator.pop(context, folderName), child: const Text('Create')),
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: const Text('Huỷ'),
+        ),
+        TextButton(
+          onPressed: () => Navigator.pop(context, folderName),
+          child: const Text('Tạo'),
+        ),
       ],
     ),
   );
