@@ -1,0 +1,28 @@
+lib/
+├── main.dart
+└── features/
+    ├── folder/
+    │   ├── domain/
+    │   │   ├── folder.dart          # Định nghĩa FolderNode (folder/file, content, reminderTime)
+    │   │   └── note_file.dart       # Nếu cần tách riêng NoteFile (không bắt buộc nếu dùng FolderNode)
+    │   └── presentation/
+    │       ├── pages/
+    │       │   ├── folder_home_page.dart   # Màn chính Folder
+    │       │   └── folder_detail_page.dart # Trang chi tiết folder
+    │       └── widgets/
+    │           ├── folder_tile.dart         # Widget tile hiển thị folder/file
+    │           ├── create_folder_dialog.dart# Dialog tạo folder
+    │           └── create_file_dialog.dart  # Dialog tạo file + reminder
+    │
+    ├── home/
+    │   └── presentation/
+    │       └── pages/
+    │           └── home_page.dart    # Màn hình HOME, hiển thị Reminder + Folder Tree
+    │
+    ├── notion/
+    │   └── data/
+    │       └── notion_service.dart   # Service gọi API Notion
+    │
+    └── shared/
+        └── widgets/
+            └── main_nav.dart          # Drawer Navigation chung
