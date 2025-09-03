@@ -23,5 +23,5 @@ jobs:
 
       - name: Run Notion Script
         env:
-          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+          NOTION_API_KEY: ${{ secrets.NOTION_API_KEY }}
         run: python Notion_Remind/notion_daily_words.py
