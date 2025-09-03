@@ -1,43 +1,70 @@
 import os
 import random
 import requests
+from datetime import datetime
 
+# Lấy API Key + Database ID từ GitHub Secrets
 NOTION_API_KEY = os.getenv("NOTION_API_KEY")
 DATABASE_ID = os.getenv("NOTION_DATABASE_ID")
-NOTION_URL = "https://api.notion.com/v1/databases/{}/query".format(DATABASE_ID)
+
+NOTION_URL = f"https://api.notion.com/v1/databases/{DATABASE_ID}/query"
 HEADERS = {
     "Authorization": f"Bearer {NOTION_API_KEY}",
     "Content-Type": "application/json",
     "Notion-Version": "2022-06-28"
 }
 
+# Lấy danh sách từ chưa học (Learned == False)
 def get_words():
-    res = requests.post(NOTION_URL, headers=HEADERS)
+    payload = {
+        "filter": {
+            "property": "Learned",
+            "checkbox": {"equals": False}
+        }
+    }
+    res = requests.post(NOTION_URL, headers=HEADERS, json=payload)
     data = res.json()
-    return data.get("results", [])
 
-def update_today_flag(page_id):
+    if "results" not in data:
+        print("Error from Notion API:", data)
+        return []
+
+    return data["results"]
+
+# Update Last Studied = hôm nay
+def update_last_studied(page_id):
     url = f"https://api.notion.com/v1/pages/{page_id}"
+    today = datetime.utcnow().isoformat()
     payload = {
         "properties": {
-            "Today": {"checkbox": True}
+            "Last Studied": {"date": {"start": today}}
         }
+    }
+    requests.patch(url, headers=HEADERS, json=payload)
+
+# (Tuỳ chọn) Mark là đã học
+def mark_learned(page_id):
+    url = f"https://api.notion.com/v1/pages/{page_id}"
+    payload = {
+        "properties": {"Learned": {"checkbox": True}}
     }
     requests.patch(url, headers=HEADERS, json=payload)
 
 def main():
     words = get_words()
-    unchecked = [w for w in words if not w["properties"]["Today"]["checkbox"]]
     
-    if not unchecked:
+    if not words:
         print("No more words to study.")
         return
 
-    today_words = random.sample(unchecked, min(5, len(unchecked)))
+    # Chọn ngẫu nhiên tối đa 5 từ
+    today_words = random.sample(words, min(5, len(words)))
     for w in today_words:
         page_id = w["id"]
-        update_today_flag(page_id)
-        print(f"Marked word {w['properties']['Word']['title'][0]['text']['content']} for today.")
+        word_text = w["properties"]["漢字第"]["title"][0]["text"]["content"]
+
+        update_last_studied(page_id)  # update ngày hôm nay
+        print(f"Studying word: {word_text}")
 
 if __name__ == "__main__":
     main()
