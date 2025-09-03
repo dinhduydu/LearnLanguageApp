@@ -1,0 +1,29 @@
+name: Notion Daily Words
+
+on:
+  schedule:
+    - cron: "0 0 * * *"   # 00:00 UTC = 07:00 sáng VN.
+    - cron: "0 14 * * *"   # 9h tối VN
+    - cron: "0 17 * * *"   # 12h đêm VN
+  workflow_dispatch:       # cho phép chạy tay trong tab Actions
+
+jobs:
+  run-script:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Run Notion Script
+        env:
+          NOTION_API_KEY: ${{ secrets.NOTION_API_KEY }}
+        run: python Notion_Remind/notion_daily_words.py
