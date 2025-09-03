@@ -24,6 +24,7 @@ def get_words():
     }
     res = requests.post(NOTION_URL, headers=HEADERS, json=payload)
     data = res.json()
+    print("DEBUG:", data)
 
     if "results" not in data:
         print("Error from Notion API:", data)
@@ -52,7 +53,8 @@ def mark_learned(page_id):
 
 def main():
     words = get_words()
-    
+    print("DB_ID:", DATABASE_ID)
+    print("API_KEY exists:", bool(NOTION_API_KEY))
     if not words:
         print("No more words to study.")
         return
