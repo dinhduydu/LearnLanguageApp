@@ -24,7 +24,6 @@ def get_words():
     }
     res = requests.post(NOTION_URL, headers=HEADERS, json=payload)
     data = res.json()
-    print("DEBUG:", data)
 
     if "results" not in data:
         print("Error from Notion API:", data)
@@ -53,8 +52,6 @@ def mark_learned(page_id):
 
 def main():
     words = get_words()
-    print("DB_ID:", DATABASE_ID)
-    print("API_KEY exists:", bool(NOTION_API_KEY))
     if not words:
         print("No more words to study.")
         return
@@ -63,10 +60,21 @@ def main():
     today_words = random.sample(words, min(5, len(words)))
     for w in today_words:
         page_id = w["id"]
-        word_text = w["properties"]["漢字第"]["title"][0]["text"]["content"]
+        #word_text = w["properties"]["漢字第"]["title"][0]["text"]["content"]
+        # Kanji
+        kanji_list = w["properties"].get("漢字第", {}).get("title", [])
+        kanji_text = kanji_list[0]["text"]["content"] if kanji_list else ""
 
+        # Hiragana
+        hira_list = w["properties"].get("ひらがな", {}).get("rich_text", [])
+        hira_text = hira_list[0]["text"]["content"] if hira_list else ""
+
+        # Vietnamese
+        vn_list = w["properties"].get("ベトナム語", {}).get("rich_text", [])
+        vn_text = vn_list[0]["text"]["content"] if vn_list else ""
         update_last_studied(page_id)  # update ngày hôm nay
-        print(f"Studying word: {word_text}")
+        #print(f"Studying word: {word_text}")
+        print(f"Kanji: {kanji_text}, Hiragana: {hira_text}, Vietnamese: {vn_text}")
 
 if __name__ == "__main__":
     main()
