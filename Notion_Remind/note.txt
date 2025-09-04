@@ -1,0 +1,7 @@
+notion_reader/
+├── __init__.py
+├── config.py           # chứa API key, headers
+├── notion_api.py       # các hàm gọi Notion API
+├── extractor.py        # xử lý dữ liệu, đệ quy sub database
+├── discord_notifier.py # gửi notification lên Discord
+└── main.py             # entry point
