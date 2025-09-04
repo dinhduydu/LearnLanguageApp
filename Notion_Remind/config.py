@@ -1,3 +1,5 @@
+import os
+
 # ==== Notion ====
 NOTION_API_KEY = os.getenv("NOTION_API_KEY")
 HEADERS = {
