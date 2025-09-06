@@ -1,4 +1,4 @@
-notion_reader/
+Notion_Remind/
 ├── __init__.py
 ├── config.py           # chứa API key, headers
 ├── notion_api.py       # các hàm gọi Notion API
