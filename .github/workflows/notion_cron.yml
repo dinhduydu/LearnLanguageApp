@@ -31,4 +31,5 @@ jobs:
           NOTION_DATABASE_ID: ${{ secrets.NOTION_DATABASE_ID }}
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
           DISCORD_USER_ID: ${{ secrets.DISCORD_USER_ID }}
+          DISCORD_USER_HIEN_ID: ${{ secrets.DISCORD_USER_HIEN_ID }}
         run: python Notion_Remind/main.py
