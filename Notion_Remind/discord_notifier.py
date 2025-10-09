@@ -1,5 +1,5 @@
 import requests
-from config import DISCORD_WEBHOOK_URL, DISCORD_USER_ID
+from config import DISCORD_WEBHOOK_URL, DISCORD_USER_ID, DISCORD_USER_HIEN_ID
 
 def send_discord_notification(message: str):
     """
@@ -9,6 +9,6 @@ def send_discord_notification(message: str):
     if not message:
         return
 
-    content = f"<@{DISCORD_USER_ID}>\n{message}"
+    content = f"<@{DISCORD_USER_ID}>\n<@{DISCORD_USER_HIEN_ID}>\n{message}"
     res = requests.post(DISCORD_WEBHOOK_URL, json={"content": content})
     res.raise_for_status()
