@@ -11,7 +11,8 @@ def extract_words(database_id: str, recursive: bool = True) -> str:
     - Update Learned + Last Studied cho các từ được chọn.
     """
     results = query_database(database_id)
-    words = []
+    words: list[tuple[str, str]] = []  # (page_id, display_text)
+    subdb_sections: list[str] = []
 
     today = datetime.date.today().isoformat()
 
@@ -28,24 +29,53 @@ def extract_words(database_id: str, recursive: bool = True) -> str:
             sub_id = kanji_title.split("/")[-1].split("?")[0]
             sub_words = extract_words(sub_id, recursive=False)
             if sub_words:
-                words.append(f"▶ Sub-database:\n{sub_words}")
+                subdb_sections.append(f"▶ Sub-database:\n{sub_words}")
         else:
             entry = f"- {kanji_title} / {hira} / {vn}"
             if hanviet:
                 entry += f" / {hanviet}"  # thêm Hán Việt nếu có
-            words.append(entry)
+            words.append((page["id"], entry))
 
     if recursive:
-        # Chọn ngẫu nhiên tối đa 5 từ
-        selected = random.sample(words, min(5, len(words)))
+        # Filter learned first
+        learned_page_ids: set[str] = set()
+        for page in results:
+            props = page["properties"]
+            learned_prop = props.get("Learned")
+            if learned_prop and learned_prop.get("checkbox") is True:
+                learned_page_ids.add(page["id"])
 
-        # Update Learned + Last Studied cho các từ được chọn
-        for page in results[:len(selected)]:
+        total_words = len(words)
+        learned_count = sum(1 for page_id, _ in words if page_id in learned_page_ids)
+        remaining_unlearned = total_words - learned_count
+
+        # When remaining words < 5, reset all learned -> not learned
+        if total_words > 0 and remaining_unlearned < 5:
+            for page_id, _ in words:
+                try:
+                    update_learned_and_date(page_id, False, date=None)
+                except Exception as e:
+                    print("Reset failed:", e)
+            learned_page_ids.clear()
+
+        candidates = [(page_id, text) for page_id, text in words if page_id not in learned_page_ids]
+        if not candidates:
+            return "\n".join(subdb_sections) if subdb_sections else ""
+
+        # Randomize remaining words and pick up to 5
+        random.shuffle(candidates)
+        selected = candidates[: min(5, len(candidates))]
+
+        # Mark selected as learned + set last studied
+        for page_id, _ in selected:
             try:
-                update_learned_and_date(page["id"], True, today)
+                update_learned_and_date(page_id, True, today)
             except Exception as e:
                 print("Update failed:", e)
 
-        return "\n".join(selected)
+        selected_text = "\n".join(text for _, text in selected)
+        if subdb_sections:
+            return selected_text + "\n" + "\n".join(subdb_sections)
+        return selected_text
     else:
-        return "\n".join(words)
+        return "\n".join(text for _, text in words)
