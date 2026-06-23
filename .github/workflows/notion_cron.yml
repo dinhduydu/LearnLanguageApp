@@ -40,3 +40,12 @@ jobs:
           DISCORD_USER_ID: ${{ secrets.DISCORD_USER_ID }}
           DISCORD_USER_HIEN_ID: ${{ secrets.DISCORD_USER_HIEN_ID }}
         run: python Notion_Remind/main.py
+
+      - name: Run Notion Fukugou Doushi Script
+        env:
+          NOTION_API_KEY: ${{ secrets.NOTION_API_KEY }}
+          NOTION_DATABASE_ID: ${{ secrets.NOTION_DATABASE_ID }}
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          DISCORD_USER_ID: ${{ secrets.DISCORD_USER_ID }}
+          DISCORD_USER_HIEN_ID: ${{ secrets.DISCORD_USER_HIEN_ID }}
+        run: python Notion_Remind/main_fukugou_doushi.py

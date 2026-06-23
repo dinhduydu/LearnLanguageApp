@@ -1,18 +1,32 @@
-from notion_api import query_database, get_page_property
+from notion_api import build_category_filter, query_database, get_page_property
 from update_properties import update_learned_and_date
+from config import NOTION_CATEGORY_PROPERTY, NOTION_CATEGORY_PROPERTY_TYPE
 import random
 import datetime
 
-def extract_words(database_id: str, recursive: bool = True) -> str:
+def extract_words(
+    database_id: str,
+    recursive: bool = True,
+    category: str | None = None,
+    category_property: str | None = None,
+) -> str:
     """
     Lấy các từ từ database chính.
     - Nếu gặp sub-database trong cột Kanji thì đệ quy in toàn bộ nội dung sub-db (không check Learned/Date).
     - Nếu có cột Hán Việt (multi_select) thì in kèm.
     - Update Learned + Last Studied cho các từ được chọn.
     """
-    results = query_database(database_id)
+    filter_payload = None
+    if category:
+        prop_name = category_property or NOTION_CATEGORY_PROPERTY
+        filter_payload = build_category_filter(
+            prop_name, category, prop_type=NOTION_CATEGORY_PROPERTY_TYPE
+        )
+
+    results = query_database(database_id, filter_payload=filter_payload)
     words: list[tuple[str, str]] = []  # (page_id, display_text)
     subdb_sections: list[str] = []
+    allow_subdb = recursive and not category
 
     today = datetime.date.today().isoformat()
 
@@ -25,7 +39,7 @@ def extract_words(database_id: str, recursive: bool = True) -> str:
         hanviet = get_page_property(props, "Hán Việt", "multi_select")  # lấy multi_select
 
         # Nếu Kanji là sub-database (link Notion)
-        if recursive and kanji_title.startswith("https://www.notion.so/"):
+        if allow_subdb and kanji_title.startswith("https://www.notion.so/"):
             sub_id = kanji_title.split("/")[-1].split("?")[0]
             sub_words = extract_words(sub_id, recursive=False)
             if sub_words:

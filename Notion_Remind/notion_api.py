@@ -7,7 +7,13 @@ from config import HEADERS
 #     res.raise_for_status()
 #     return res.json().get("results", [])
 
-def query_database(database_id: str) -> list:
+def build_category_filter(property_name: str, category: str, prop_type: str = "select") -> dict:
+    if prop_type == "multi_select":
+        return {"property": property_name, "multi_select": {"contains": category}}
+    return {"property": property_name, "select": {"equals": category}}
+
+
+def query_database(database_id: str, filter_payload: dict | None = None) -> list:
     url = f"https://api.notion.com/v1/databases/{database_id}/query"
     
     all_results = []
@@ -15,6 +21,8 @@ def query_database(database_id: str) -> list:
 
     while True:
         payload = {}
+        if filter_payload:
+            payload["filter"] = filter_payload
         if next_cursor:
             payload["start_cursor"] = next_cursor
 
